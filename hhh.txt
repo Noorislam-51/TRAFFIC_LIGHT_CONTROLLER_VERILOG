@@ -1,0 +1,70 @@
+1️⃣ State Definition (FSM)
+
+You actually need 10 states (Green + Yellow for each direction):
+
+N_G  → N_Y →
+E_G  → E_Y →
+S_G  → S_Y →
+W_G  → W_Y → back to N_G
+
+
+Rule:
+
+If a direction is active, it can be Green or Yellow
+
+All other directions = Red
+
+Default/reset state = All Red
+
+2️⃣ Timing Logic
+Light	Duration
+Green	16 sec
+Yellow	4 sec
+
+Use a counter:
+
+count < 16 → stay in Green
+
+count < 4 → stay in Yellow
+
+When time over → count = 0 and move to next state
+
+3️⃣ FSM Design (Two Blocks) ✅
+
+You did the right approach.
+
+🔹 Block 1: State Transition (Sequential)
+
+Clock driven
+
+Uses count
+
+Moves between states
+
+🔹 Block 2: Output Logic (Combinational)
+
+Decides light colors based on state
+
+4️⃣ State Encoding (Example)
+typedef enum logic [3:0] {
+  ALL_RED,
+  N_G, N_Y,
+  E_G, E_Y,
+  S_G, S_Y,
+  W_G, W_Y
+} state_t;
+
+7️⃣ Simple Logic (Your Line Explained)
+
+“If North (check count, wait 16 sec, then rst & move to NY, then wait 4 sec)”
+
+✔️ That is exactly correct FSM behavior
+✔️ Interview-ready explanation
+✔️ Clean separation of timing + state + output
+
+8️⃣ What You Should Say in Viva / Interview 🎯
+
+“I designed a Moore FSM with separate state-transition and output logic.
+Each direction has a Green and Yellow state.
+Green lasts 16 seconds, Yellow lasts 4 seconds, and all other lights remain Red.
+A counter controls state transitions.”
